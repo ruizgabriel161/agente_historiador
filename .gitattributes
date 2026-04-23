@@ -1,4 +1,1 @@
-* text=auto
-*.toml text eol=lf
-*.lock text eol=lf
-*.gitignore text eol=lf
+* text=auto eol=lf

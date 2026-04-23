@@ -1,15 +1,29 @@
+version: "3.9"
+
 services:
-  psql:
+  postgres:
     image: postgres:16
-    container_name: psql
-    hostname: psql
-    restart: unless-stopped
-    env_file: .env
+    container_name: postgres_langgraph
+    restart: always
+    env_file:
+      .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: chromadb
+    restart: always
+    ports:
+      - "8000:8000"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./db:/docker-entrypoint-initdb.d
+      - chroma_data:/chroma/chroma
+    environment:
+      - IS_PERSISTENT=TRUE
+      - ANONYMIZED_TELEMETRY=FALSE
 
 volumes:
-  pgdata:
+  postgres_data:
+  chroma_data:

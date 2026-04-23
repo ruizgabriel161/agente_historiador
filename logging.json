@@ -1,0 +1,102 @@
+{
+    "version": 1,
+    "disable_existing_loggers": false,
+    "formatters": {
+        "file": {
+            "class": "logging.Formatter",
+            "format": "FILE: [%(created)f|%(name)s|%(filename)s|%(lineno)d|%(levelname)s|%(message)s]"
+        },
+        "json": {
+            "()": "pygrlogging.formatters.JSONLogFormatter",
+            "include_keys": [
+                "created",
+                "filename",
+                "name",
+                "levelname",
+                "lineno",
+                "message"
+            ],
+            "datefmt": "%d/%m/%Y %H:%M:%S"
+        },
+        "console_stdout": {
+            "class": "logging.Formatter",
+            "format": "%(created)f|%(filename)s|%(name)s|%(levelname)s|%(lineno)d|%(message)s",
+            "datefmt": "[%X]"
+        },
+        "console_stderr": {
+            "class": "logging.Formatter",
+            "format": "%(created)f|%(filename)s|%(name)s|%(levelname)s|%(lineno)d|%(message)s",
+            "datefmt": "[%X]"
+        }
+    },
+    "filters": {
+        "max_level_info": {
+            "()": "pygrlogging.filters.MaxLevelFilter",
+            "max_level": "INFO"
+        }
+    },
+    "handlers": {
+        "queue": {
+            "class": "logging.handlers.QueueHandler",
+            "handlers": [
+                "file",
+                "console_stdout",
+                "console_stderr"
+            ],
+            "respect_handler_level": true
+        },
+        "file": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "logs/log.log",
+            "maxBytes": 1024,
+            "backupCount": 3,
+            "encoding": "utf-8",
+            "formatter": "json",
+            "mode": "w"
+        },
+        "console_stdout": {
+            "()": "pygrlogging.handlers.MyRichHandler",
+            "formatter": "console_stdout",
+            "show_time": true,
+            "show_level": true,
+            "rich_tracebacks": true,
+            "enable_link_path": true,
+            "markup": true,
+            "show_path": true,
+            "omit_repeated_times": false,
+            "file": "stdout",
+            "level": "DEBUG",
+            "filters": [
+                "max_level_info"
+            ]
+        },
+        "console_stderr": {
+            "()": "pygrlogging.handlers.MyRichHandler",
+            "formatter": "console_stderr",
+            "show_time": true,
+            "show_level": true,
+            "rich_tracebacks": true,
+            "enable_link_path": true,
+            "markup": false,
+            "show_path": true,
+            "omit_repeated_times": false,
+            "file": "stderr",
+            "level": "WARNING"
+        }
+    },
+    "root": {
+        "level": "ERROR",
+        "handlers": [
+            "queue"
+        ]
+    },
+    "loggers": {
+        "rag_historiador": {
+            "level": "DEBUG",
+            "handlers": [
+                "queue"
+            ]
+        }
+    }
+
+}

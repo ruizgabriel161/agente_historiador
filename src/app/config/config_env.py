@@ -13,7 +13,8 @@ class Settings(BaseSettings):
     MODEL_CODE:str = ''
     LLM_HOST:str = 'http://localhost:11434' #localhost da llm
     DATA_DSN: str = ''
-
+    MODE_EMBEDDIGNS: str = 'nomic-embed-text' #Modelo de embedding
+    OPENAI_API_KEY: str = ''
 
 if __name__ == '__main__':
     Settings()
